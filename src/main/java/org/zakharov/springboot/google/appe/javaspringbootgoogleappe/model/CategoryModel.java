@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Entity(name = "Category")
+@Entity(name = "Categories")
 public class CategoryModel {
     @Id
     private Long id;

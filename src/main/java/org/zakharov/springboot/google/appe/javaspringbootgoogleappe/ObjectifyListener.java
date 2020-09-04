@@ -4,6 +4,7 @@ import com.google.cloud.datastore.DatastoreOptions;
 import com.googlecode.objectify.ObjectifyFactory;
 import com.googlecode.objectify.ObjectifyService;
 import org.zakharov.springboot.google.appe.javaspringbootgoogleappe.model.CategoryModel;
+import org.zakharov.springboot.google.appe.javaspringbootgoogleappe.model.ProductModel;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
@@ -46,6 +47,7 @@ public class ObjectifyListener implements ServletContextListener {
         // регистрируем все классы моделей, экземпляры которых
         // затем будем читать или записывать в хранилище
         ObjectifyService.register(CategoryModel.class);
+        ObjectifyService.register(ProductModel.class);
     }
 
     @Override

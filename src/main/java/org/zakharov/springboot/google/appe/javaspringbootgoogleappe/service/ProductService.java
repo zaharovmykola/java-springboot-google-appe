@@ -6,7 +6,7 @@ import org.zakharov.springboot.google.appe.javaspringbootgoogleappe.dao.Category
 import org.zakharov.springboot.google.appe.javaspringbootgoogleappe.dao.ProductDao;
 import org.zakharov.springboot.google.appe.javaspringbootgoogleappe.model.*;
 import org.zakharov.springboot.google.appe.javaspringbootgoogleappe.service.interfaces.IProductService;
-import sun.tools.tree.BooleanExpression;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -64,7 +64,13 @@ public class ProductService implements IProductService {
         }
     }
 
+    @Override
     public ResponseModel getFiltered(ProductFilterModel filter) {
+        throw new NotImplementedException();
+        // return null;
+    }
+
+    /*public ResponseModel getFiltered(ProductFilterModel filter) {
         List<Product> products =
                 productDao.findByCategoryIds(
                         filter.categories,
@@ -125,9 +131,9 @@ public class ProductService implements IProductService {
                     );
         }
         return getResponseModelFromEntities(products);
-    }
+    }*/
 
-    private ResponseModel getResponseModelFromEntities(List<Product> products) {
+    /*private ResponseModel getResponseModelFromEntities(List<Product> products) {
         List<ProductModel> productModels =
                 products.stream()
                         .map((p)->
@@ -151,9 +157,9 @@ public class ProductService implements IProductService {
                 .status(ResponseModel.SUCCESS_STATUS)
                 .data(productModels)
                 .build();
-    }
+    }*/
 
-    public ResponseModel getProductsPriceBounds() {
+    /*public ResponseModel getProductsPriceBounds() {
         Map<String, Integer> maxndMin = new LinkedHashMap<>();
         maxndMin.put("min", productDao.findMinimum().intValue());
         maxndMin.put("max", productDao.findTop1ByOrderByPriceDesc().getPrice().intValue());
@@ -161,6 +167,6 @@ public class ProductService implements IProductService {
                 .status(ResponseModel.SUCCESS_STATUS)
                 .data(maxndMin)
                 .build();
-    }
+    }*/
 
 }

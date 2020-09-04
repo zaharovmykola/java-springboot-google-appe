@@ -1,7 +1,7 @@
 package org.zakharov.springboot.google.appe.javaspringbootgoogleappe.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
+// import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -35,7 +35,7 @@ public class ProductController {
         return new ResponseEntity<>(service.update(product), HttpStatus.OK);
     }
 
-    // пользовательское правило для составления адресной строки:
+    /*// пользовательское правило для составления адресной строки:
     // :: разделяет пары "ключ-значение";
     // : разделяет ключи и значения
     @GetMapping("/categories/{categoryIds}/products::orderBy:{orderBy}::sortingDirection:{sortingDirection}")
@@ -50,10 +50,10 @@ public class ProductController {
                 ),
                 HttpStatus.OK
         );
-    }
+    }*/
 
     @DeleteMapping(value = "/products/{id}")
-    public ResponseEntity<ResponseModel> deleteProduct(@PathVariable Long id) {
+    public ResponseEntity<ResponseModel> deleteProduct(@PathVariable Long id) throws InstantiationException, IllegalAccessException {
         ResponseModel responseModel = service.delete(id);
         System.out.println(responseModel);
         return new ResponseEntity<>(responseModel, HttpStatus.OK);
@@ -64,7 +64,7 @@ public class ProductController {
     // заданным как часть начальной строки с произвольно выбранными разделителями:
     // "::" - между парами ключ-значение,
     // ":" - между каждым ключом и его значением
-    @GetMapping("/products/filtered::orderBy:{orderBy}::sortingDirection:{sortingDirection}")
+    /*@GetMapping("/products/filtered::orderBy:{orderBy}::sortingDirection:{sortingDirection}")
     public ResponseEntity<ResponseModel> search(
             @RequestParam(value = "search") String searchString,
             @PathVariable String orderBy,
@@ -85,5 +85,5 @@ public class ProductController {
                 service.getProductsPriceBounds(),
                 HttpStatus.OK
         );
-    }
+    }*/
 }

@@ -11,10 +11,10 @@ import static com.googlecode.objectify.ObjectifyService.ofy;
 @Repository
 public class ProductDao extends AbstractDAO<ProductModel> {
     // получение из хранилища объекта типа ProductModel по имени товара
-    public ProductModel read(String _name) throws Exception {
+    public ProductModel read(String _title) throws Exception {
         return (ProductModel) ObjectifyService.run(
                 (Work) () -> ofy().load().type(ProductModel.class)
-                        .filter("name", _name) // отобрать только объекты Товар с заданным именем
+                        .filter("title", _title) // отобрать только объекты Товар с заданным именем
                         .first() // получить только первый из найденных объектов
                         .now() // выполнить получение одного найденного объекта немедленно
         );
