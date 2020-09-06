@@ -6,7 +6,9 @@ import org.zakharov.springboot.google.appe.javaspringbootgoogleappe.model.Respon
 
 public interface IProductService {
     ResponseModel create(ProductModel productModel);
+    ResponseModel update(ProductModel productModel);
     ResponseModel getAll();
     ResponseModel delete(Long id) throws IllegalAccessException, InstantiationException;
-    ResponseModel getFiltered(ProductFilterModel filter);
+    //ResponseModel getFiltered(ProductFilterModel filter);
+    //ResponseModel search(ProductSearchModel searchModel);
 }

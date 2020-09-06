@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.zakharov.springboot.google.appe.javaspringbootgoogleappe.dao.CategoryDao;
 import org.zakharov.springboot.google.appe.javaspringbootgoogleappe.dao.ProductDao;
+import org.zakharov.springboot.google.appe.javaspringbootgoogleappe.dao.predicate.ProductPredicatesBuilder;
 import org.zakharov.springboot.google.appe.javaspringbootgoogleappe.model.*;
 import org.zakharov.springboot.google.appe.javaspringbootgoogleappe.service.interfaces.IProductService;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
@@ -66,40 +67,31 @@ public class ProductService implements IProductService {
 
     @Override
     public ResponseModel getFiltered(ProductFilterModel filter) {
-        throw new NotImplementedException();
-        // return null;
-    }
-
-    /*public ResponseModel getFiltered(ProductFilterModel filter) {
-        List<Product> products =
-                productDao.findByCategoryIds(
-                        filter.categories,
-                        Sort.by(filter.sortingDirection, filter.orderBy)
-                );
-        List<ProductModel> productModels =
-                products.stream()
-                        .map((p)->
-                                ProductModel.builder()
-                                        .id(p.getId())
-                                        .title(p.getName())
-                                        .description(p.getDescription())
-                                        .price(p.getPrice())
-                                        .quantity(p.getQuantity())
-                                        .category(CategoryModel.builder().id(p.getCategory().getId()).name(p.getCategory().getName()).build())
-                                        .build()
-                        )
-                        .collect(Collectors.toList());
-
+        List<ProductModel> products =
+                productDao.getFiltered(filter);
+        if(filter.categories != null && filter.categories.size() > 0) {
+            products.removeIf((p) -> {
+                boolean categoryIdAbsents = true;
+                for (Long categoryId : filter.categories) {
+                    if(p.getCategoryId().equals(categoryId)) {
+                        categoryIdAbsents = false;
+                        break;
+                    }
+                }
+                return categoryIdAbsents;
+            });
+        }
         return ResponseModel.builder()
                 .status(ResponseModel.SUCCESS_STATUS)
-                .data(productModels)
+                .data(products)
                 .build();
     }
+
 
     // поиск отфильтрованного и отсортированного списка товаров
     // на основе запросов query dsl
     public ResponseModel search(ProductSearchModel searchModel) {
-        List<Product> products = null;
+        List<ProductModel> products = null;
         if (searchModel.searchString != null && !searchModel.searchString.isEmpty()) {
             ProductPredicatesBuilder builder = new ProductPredicatesBuilder();
             // разбиение значения http-параметра search
@@ -109,18 +101,60 @@ public class ProductService implements IProductService {
             while (matcher.find()) {
                 builder.with(matcher.group(1), matcher.group(2), matcher.group(3));
             }
-            BooleanExpression expression = builder.build();
+            /////////////////////////////////////////////////////////////////////////////////
+            Pattern patternSquareBrakets = Pattern.compile("([]\]+?)");
+            Matcher matcherSquareBrakets = pattern.matcher(searchModel.searchString + ";");
+            if (matcher.find()) {
+                if(filter.categories != null && filter.categories.size() > 0) {
+                    products.removeIf((p) -> {
+                        boolean categoryIdAbsents = true;
+                        for (Long categoryId : filter.categories) {
+                            if(p.getCategoryId().equals(categoryId)) {
+                                categoryIdAbsents = false;
+                                break;
+                            }
+                        }
+                        return categoryIdAbsents;
+                    }
+            } else {
+                builder.with(matcher.group(1));
+            }
+            /////////////////////////////////////////////////////////////////////////////////
+
+            // TODO завершите построение метода фильтра,
+            // для этого пропустите через цикл весь список критерий,
+            // и для тех, в значении которых не встречается квадратная скобка -
+            // примените предикат,
+            // иначе - запланируйте фильтрацию по списку идентификаторов категорий прямо
+            // здесь: установите флаг "по категориям" в истину,
+            // и когда вызовете срабатывание объекта запроса -
+            // отфильтруйте его результаты в памяти:
+
+            /* if(filter.categories != null && filter.categories.size() > 0) {
+                products.removeIf((p) -> {
+                    boolean categoryIdAbsents = true;
+                    for (Long categoryId : filter.categories) {
+                        if(p.getCategoryId().equals(categoryId)) {
+                            categoryIdAbsents = false;
+                            break;
+                        }
+                    }
+                    return categoryIdAbsents;
+                });
+            } */
+
+            /* BooleanExpression expression = builder.build();
             // выполнение sql-запроса к БД
             // с набором условий фильтрации
             // и с указанием имени поля и направления сортировки
             products =
-                    (List<Product>) productDao.findAll(
-                            expression,
-                            Sort.by(
-                                    searchModel.sortingDirection,
-                                    searchModel.orderBy
-                            )
-                    );
+                (List<Product>) productObjectifyDao.findAll(
+                    expression,
+                    Sort.by(
+                        searchModel.sortingDirection,
+                        searchModel.orderBy
+                    )
+                ); */
         } else {
             products =
                     productDao.findAll(
@@ -131,7 +165,7 @@ public class ProductService implements IProductService {
                     );
         }
         return getResponseModelFromEntities(products);
-    }*/
+    }
 
     /*private ResponseModel getResponseModelFromEntities(List<Product> products) {
         List<ProductModel> productModels =

@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-//import org.springframework.data.domain.Sort;
 
 import java.util.List;
 
@@ -15,7 +14,8 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ProductFilterModel {
+    public enum Order {Asc, Desc}
     public List<Long> categories;
     public String orderBy;
-    //public Sort.Direction sortingDirection;
+    public Order sortingDirection;
 }
