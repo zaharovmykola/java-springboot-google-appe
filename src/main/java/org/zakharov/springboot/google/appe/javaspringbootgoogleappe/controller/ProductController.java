@@ -25,32 +25,15 @@ public class ProductController {
     }
 
     @PostMapping("/products")
-    public ResponseEntity<ResponseModel> create(@RequestBody ProductModel product) {
+    public ResponseEntity<ResponseModel> create(@RequestBody ProductModel product) throws InstantiationException, IllegalAccessException {
         return new ResponseEntity<>(service.create(product), HttpStatus.CREATED);
     }
 
     @PatchMapping(value = "/products/{id}")
-    public ResponseEntity<ResponseModel> update(@PathVariable Long id, @RequestBody ProductModel product) {
+    public ResponseEntity<ResponseModel> update(@PathVariable Long id, @RequestBody ProductModel product) throws InstantiationException, IllegalAccessException {
         product.setId(id);
         return new ResponseEntity<>(service.update(product), HttpStatus.OK);
     }
-
-    /*// пользовательское правило для составления адресной строки:
-    // :: разделяет пары "ключ-значение";
-    // : разделяет ключи и значения
-    @GetMapping("/categories/{categoryIds}/products::orderBy:{orderBy}::sortingDirection:{sortingDirection}")
-    public ResponseEntity<ResponseModel> getByCategories(
-            @PathVariable List<Long> categoryIds,
-            @PathVariable String orderBy,
-            @PathVariable Sort.Direction sortingDirection
-    ) {
-        return new ResponseEntity<>(
-                service.getFiltered(
-                        new ProductFilterModel(categoryIds, orderBy, sortingDirection)
-                ),
-                HttpStatus.OK
-        );
-    }*/
 
     @DeleteMapping(value = "/products/{id}")
     public ResponseEntity<ResponseModel> deleteProduct(@PathVariable Long id) throws InstantiationException, IllegalAccessException {
@@ -64,13 +47,12 @@ public class ProductController {
     // заданным как часть начальной строки с произвольно выбранными разделителями:
     // "::" - между парами ключ-значение,
     // ":" - между каждым ключом и его значением
-    /*@GetMapping("/products/filtered::orderBy:{orderBy}::sortingDirection:{sortingDirection}")
+    @GetMapping("/products/filtered::orderBy:{orderBy}::sortingDirection:{sortingDirection}")
     public ResponseEntity<ResponseModel> search(
             @RequestParam(value = "search") String searchString,
             @PathVariable String orderBy,
-            @PathVariable Sort.Direction sortingDirection
+            @PathVariable ProductSearchModel.Order sortingDirection
     ) {
-        System.err.println("searchString = " + searchString);
         return new ResponseEntity<>(
                 service.search(
                         new ProductSearchModel(searchString, orderBy, sortingDirection)
@@ -85,5 +67,5 @@ public class ProductController {
                 service.getProductsPriceBounds(),
                 HttpStatus.OK
         );
-    }*/
+    }
 }
