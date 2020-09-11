@@ -38,7 +38,6 @@ public abstract class AbstractDAO<T> {
     }
     // получение списка объектов сущности
     public List<T> read() {
-        // List<T> entities = new ArrayList<>();
         List<T> entities =
                 (List<T>) ObjectifyService.run((Work) () -> {
                     // List<T> entitiesResult =
@@ -47,41 +46,19 @@ public abstract class AbstractDAO<T> {
                     // чтобы указать, какого типа объекты нужно получить из хранилища;
                     // list - указание немедленно получить список объектов типа
                     // entityType из хранилища
-                    return ofy().load().type(entityType).order("-__key__").list();
-                    /* if (entitiesResult != null) {
-                        entities.addAll(entitiesResult);
-                    } */
+                    return ofy().load().type(entityType).list();
                 });
         return entities;
     }
     // получение одного объекта сущности по его ИД
     public T read(Long _id)
             throws InstantiationException, IllegalAccessException {
-        /* T entity = null;
-        T finalEntity = entityType.newInstance();
-        ObjectifyService.run(new VoidWork() {
-            @Override
-            public void vrun() {
-                T entityResult =
-                        ofy().load().type(entityType).id(_id).now();
-                if (entityResult != null) {
-                    // CopyHelper.copy(entityResult, finalEntity);
-                }
-            }
-        });
-        entity = finalEntity;
-        return entity; */
         return ObjectifyService.run(() -> ofy().load().type(entityType).id(_id).now());
     }
 
     public void delete(Long _id) {
-
-        ObjectifyService.run(new VoidWork() {
-            @Override
-            public void vrun() {
-                ofy().delete().type(entityType).id(_id).now();
-            }
-        });
+        ObjectifyService.run((Work) () ->
+                ofy().delete().type(entityType).id(_id).now()
+        );
     }
-
 }

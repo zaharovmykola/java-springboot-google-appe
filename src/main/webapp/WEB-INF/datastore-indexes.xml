@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<datastore-indexes
+        autoGenerate="true">
+    <datastore-index kind="Products" ancestor="false">
+        <property name="title" direction="desc" />
+        <property name="price"  direction="desc" />
+    </datastore-index>
+    <datastore-index kind="Products" ancestor="false">
+        <property name="title" direction="asc" />
+        <property name="price"  direction="desc" />
+    </datastore-index>
+    <datastore-index kind="Products" ancestor="false">
+        <property name="title" direction="desc" />
+        <property name="price"  direction="asc" />
+    </datastore-index>
+    <datastore-index kind="Products" ancestor="false">
+        <property name="title" direction="asc" />
+        <property name="price"  direction="asc" />
+    </datastore-index>
+    <datastore-index kind="Products" ancestor="false">
+        <property name="title" direction="desc" />
+        <property name="price"  direction="desc" />
+        <property name="quantity"  direction="desc" />
+    </datastore-index>
+    <datastore-index kind="Products" ancestor="false">
+        <property name="title" direction="asc" />
+        <property name="price"  direction="desc" />
+        <property name="quantity"  direction="desc" />
+    </datastore-index>
+    <datastore-index kind="Products" ancestor="false">
+        <property name="title" direction="desc" />
+        <property name="price"  direction="asc" />
+        <property name="quantity"  direction="desc" />
+    </datastore-index>
+    <datastore-index kind="Products" ancestor="false">
+        <property name="title" direction="desc" />
+        <property name="price"  direction="desc" />
+        <property name="quantity"  direction="asc" />
+    </datastore-index>
+    <datastore-index kind="Products" ancestor="false">
+        <property name="title" direction="asc" />
+        <property name="price"  direction="asc" />
+        <property name="quantity"  direction="desc" />
+    </datastore-index>
+    <datastore-index kind="Products" ancestor="false">
+        <property name="title" direction="asc" />
+        <property name="price"  direction="asc" />
+        <property name="quantity"  direction="asc" />
+    </datastore-index>
+    <datastore-index kind="Products" ancestor="false">
+        <property name="title" direction="desc" />
+        <property name="price"  direction="asc" />
+        <property name="quantity"  direction="asc" />
+    </datastore-index>
+    <datastore-index kind="Products" ancestor="false">
+        <property name="title" direction="asc" />
+        <property name="price"  direction="desc" />
+        <property name="quantity"  direction="asc" />
+    </datastore-index>
+</datastore-indexes>

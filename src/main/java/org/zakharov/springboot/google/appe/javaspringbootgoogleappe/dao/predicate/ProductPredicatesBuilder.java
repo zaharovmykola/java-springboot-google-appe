@@ -3,6 +3,7 @@ package org.zakharov.springboot.google.appe.javaspringbootgoogleappe.dao.predica
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.googlecode.objectify.cmd.Query;
 import javafx.beans.binding.BooleanExpression;
+import org.zakharov.springboot.google.appe.javaspringbootgoogleappe.dao.QueryBox;
 import org.zakharov.springboot.google.appe.javaspringbootgoogleappe.dao.criteria.SearchCriteria;
 import org.zakharov.springboot.google.appe.javaspringbootgoogleappe.model.ProductModel;
 
@@ -21,11 +22,11 @@ import static com.googlecode.objectify.ObjectifyService.ofy;
 public class ProductPredicatesBuilder {
 
     private List<SearchCriteria> params;
-    private Map<String, List<Long>> inMemoryFilterModel;
+    private List<SearchCriteria> inMemoryFilterList;
 
-    public ProductPredicatesBuilder(Map<String, List<Long>> inMemoryFilterModel) {
+    public ProductPredicatesBuilder(List<SearchCriteria> inMemoryFilterList) {
         this.params = new ArrayList<>();
-        this.inMemoryFilterModel = inMemoryFilterModel;
+        this.inMemoryFilterList = inMemoryFilterList;
     }
 
     // обеспечение возможности добавления предикатов в запрос query dsl
@@ -48,14 +49,21 @@ public class ProductPredicatesBuilder {
         // объекты типа ProductModel
         Query<ProductModel> query =
                 ofy().load().type(ProductModel.class);
+        QueryBox queryBox = new QueryBox();
+        queryBox.query = query;
         // на основе каждой структуры входных данных
         // формируем предикат,
         // отсеиваем только успешно созданные предикаты,
         // отбрасывая возможные выходные элементы потока со значением null
         params.forEach(searchCriteria -> {
-            ProductPredicate predicate = new ProductPredicate(searchCriteria);
+            ProductPredicate predicate = new ProductPredicate(searchCriteria, queryBox.previousSearchCriteria);
             try {
-                predicate.getPredicate(query, inMemoryFilterModel);
+                // в каждый вызов метода addPredicate передаем ссылку на объект запроса,
+                // а также ссылку на список SearchCriteria, отложенных для выполнения
+                // фильтрации в памяти
+                queryBox.query = predicate.addPredicate(queryBox.query, inMemoryFilterList);
+                queryBox.previousSearchCriteria = searchCriteria;
+                System.out.println(inMemoryFilterList);
             } catch (JsonProcessingException e) {
                 e.printStackTrace();
             }
@@ -63,6 +71,6 @@ public class ProductPredicatesBuilder {
 
         // собираем список предикатов в результирующее составное условие
         // отбора результатов запроса к источнику данных
-        return query;
+        return queryBox.query;
     }
 }

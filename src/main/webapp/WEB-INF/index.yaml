@@ -1,0 +1,12 @@
+indexes:
+
+  - kind: Products
+    properties:
+      - name: __key__
+        direction: desc
+
+  - kind: Products
+    properties:
+      - name: price
+      - name: title
+      - name: quantity

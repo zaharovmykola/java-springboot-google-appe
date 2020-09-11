@@ -3,6 +3,7 @@ package org.zakharov.springboot.google.appe.javaspringbootgoogleappe.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.google.appengine.repackaged.com.google.gson.annotations.Expose;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Ignore;
@@ -25,18 +26,20 @@ public class ProductModel {
     @Id
     private Long id;
     @Index
+    @Expose
     private String title;
+    @Expose
     private String description;
     @Index
-    @JsonIgnore
-    private BigDecimal price;
+    @Expose
+    private Double price;
     @Index
+    @Expose
     private Integer quantity;
     private String image;
     @Index
+    @Expose
     public Long categoryId;
     @Ignore
     public CategoryModel category;
-    @Ignore
-    private Double priceDouble;
 }
