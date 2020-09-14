@@ -3,6 +3,7 @@ package org.zakharov.springboot.google.appe.javaspringbootgoogleappe.dao;
 import com.googlecode.objectify.ObjectifyService;
 import com.googlecode.objectify.Work;
 import org.springframework.stereotype.Repository;
+import org.zakharov.springboot.google.appe.javaspringbootgoogleappe.model.UserModel;
 
 import static com.googlecode.objectify.ObjectifyService.ofy;
 

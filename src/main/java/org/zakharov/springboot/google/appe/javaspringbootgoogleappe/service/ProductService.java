@@ -2,16 +2,20 @@ package org.zakharov.springboot.google.appe.javaspringbootgoogleappe.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.appengine.api.users.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.zakharov.springboot.google.appe.javaspringbootgoogleappe.dao.CategoryDao;
 import org.zakharov.springboot.google.appe.javaspringbootgoogleappe.dao.ProductDao;
 import org.zakharov.springboot.google.appe.javaspringbootgoogleappe.dao.SubscriptionObjectifyDao;
+import org.zakharov.springboot.google.appe.javaspringbootgoogleappe.dao.UserObjectifyDao;
 import org.zakharov.springboot.google.appe.javaspringbootgoogleappe.dao.criteria.SearchCriteria;
 import org.zakharov.springboot.google.appe.javaspringbootgoogleappe.model.*;
 import org.zakharov.springboot.google.appe.javaspringbootgoogleappe.service.interfaces.IProductService;
 import org.zakharov.springboot.google.appe.javaspringbootgoogleappe.utils.Mailer;
 
+import javax.mail.MessagingException;
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -28,10 +32,13 @@ public class ProductService implements IProductService {
     @Autowired
     private SubscriptionObjectifyDao subscriptionObjectifyDao;
 
+    @Autowired
+    private UserObjectifyDao userObjectifyDao;
+
     private List<ProductModel> products;
 
     @Override
-    public ResponseModel create(ProductModel productModel, Long userId) throws IllegalAccessException, InstantiationException {
+    public ResponseModel create(ProductModel productModel, Long userId) throws Exception {
         CategoryModel category
                 = categoryObjectifyDao.read(productModel.getCategoryId());
         if(category != null) {
@@ -45,24 +52,34 @@ public class ProductService implements IProductService {
                                 + "' (category: "
                                 + category.getName()
                                 + "). "
-                                + "Unsubscription link: https://ode-2191.oa.r.appspot.com/subscriber/"
+                                + "Unsubscription link: https://ode-zakharov.oa.r.appspot.com/subscriber/"
                                 + userId
                                 + "/category/"
                                 + category.getId();
                 String subjectString = "New offer from SimpleSPA GAE";
-                String fromAddressString = "tyaa10@gmail.com";
+                String fromAddressString = "zaharovmykola@gmail.com";
                 String fromNameString = "CTFinder";
                 // TODO при помощи репозитория (дао) пользователей
                 // получать объекты моделей пользователей и
                 // подставлять из них имена и адреса электронной почты
                 // в метод отправки электронных писем sendPlainMsg
-                new Mailer().sendPlainMsg(
-                        messageString
-                        , subjectString
-                        , fromAddressString
-                        , fromNameString
-                        , toAddressString
-                        , toNameString);
+                try {
+                    new Mailer().sendPlainMsg(
+                            messageString
+                            , subjectString
+                            , fromAddressString
+                            , fromNameString
+                            , userObjectifyDao.read(userId).getEmail()
+                            , userObjectifyDao.read(userId).getName());
+                } catch (MessagingException e) {
+                    e.printStackTrace();
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                } catch (InstantiationException e) {
+                    e.printStackTrace();
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
             });
             return ResponseModel.builder()
                     .status(ResponseModel.SUCCESS_STATUS)
