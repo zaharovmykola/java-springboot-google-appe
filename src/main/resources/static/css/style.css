@@ -1,0 +1,55 @@
+.preloader {
+    position: absolute;
+    top: calc(50% - 12px);
+    left: calc(50% - 100px);
+    display: none;
+    z-index: 1000;
+    width: 200px;
+    height: 25px;
+    background-color: yellow;
+}
+
+div#g-signin2 {
+    position: absolute !important;
+    top : 10px !important;
+    right: 10px !important;
+    /* display: none */
+}
+
+#signout {display:none}
+
+.dropdown-tyaa {
+    /*position: relative;
+    display: inline-block;*/
+    position: absolute !important;
+    top : 10px !important;
+    right: 10px !important;
+}
+
+.dropdown-tyaa img {
+    border-radius: 50%;
+    height: 36px;
+    width: 36px;
+}
+
+.dropdown-content-tyaa {
+    display: none;
+    position: absolute !important;
+    right: 0px !important;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown-content-tyaa > div {
+    color: black;
+    padding: 6px 8px;
+    /*text-decoration: none;*/
+    display: block;
+}
+
+.dropdown-content-tyaa a:hover {background-color: #f1f1f1}
+/*a[href='#!home:out'] {
+    display: none;
+}*/

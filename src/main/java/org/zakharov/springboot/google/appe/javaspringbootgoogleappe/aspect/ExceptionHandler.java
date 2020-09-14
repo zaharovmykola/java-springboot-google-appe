@@ -44,21 +44,21 @@ public class ExceptionHandler {
         try {
             output = pjp.proceed();
         } catch (Exception ex) {
-            if (ex.getMessage().equals("ConstraintViolationException")){
+            /*if (ex.getMessage().equals("ConstraintViolationException")){
                 output =
-                        ResponseModel.builder()
-                                .status(ResponseModel.FAIL_STATUS)
-                                .message("This name is already taken")
-                                .build();
-            } else {
-                System.err.println("SQL Error!");
-                ex.printStackTrace();
-                output =
-                        ResponseModel.builder()
-                                .status(ResponseModel.FAIL_STATUS)
-                                .message("Unknown database error")
-                                .build();
-            }
+                    ResponseModel.builder()
+                        .status(ResponseModel.FAIL_STATUS)
+                        .message("This name is already taken")
+                        .build();
+            } else {*/
+            System.err.println("Google DataStore Error");
+            ex.printStackTrace();
+            output =
+                    ResponseModel.builder()
+                            .status(ResponseModel.FAIL_STATUS)
+                            .message("Unknown storage error")
+                            .build();
+            //}
         } catch (Throwable throwable) {
             throwable.printStackTrace();
         }

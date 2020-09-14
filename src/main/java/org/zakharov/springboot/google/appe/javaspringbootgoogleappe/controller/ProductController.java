@@ -11,6 +11,7 @@ import org.zakharov.springboot.google.appe.javaspringbootgoogleappe.model.Produc
 import org.zakharov.springboot.google.appe.javaspringbootgoogleappe.model.ResponseModel;
 import org.zakharov.springboot.google.appe.javaspringbootgoogleappe.service.ProductService;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @RestController
@@ -25,8 +26,8 @@ public class ProductController {
     }
 
     @PostMapping("/products")
-    public ResponseEntity<ResponseModel> create(@RequestBody ProductModel product) throws InstantiationException, IllegalAccessException {
-        return new ResponseEntity<>(service.create(product), HttpStatus.CREATED);
+    public ResponseEntity<ResponseModel> create(@RequestBody ProductModel product, HttpSession httpSession) throws InstantiationException, IllegalAccessException {
+        return new ResponseEntity<>(service.create(product, httpSession.getAttribute("user_id")), HttpStatus.CREATED);
     }
 
     @PatchMapping(value = "/products/{id}")
