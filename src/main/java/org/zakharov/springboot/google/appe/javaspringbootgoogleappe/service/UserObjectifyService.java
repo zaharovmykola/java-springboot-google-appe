@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.zakharov.springboot.google.appe.javaspringbootgoogleappe.dao.UserObjectifyDao;
 import org.zakharov.springboot.google.appe.javaspringbootgoogleappe.model.ResponseModel;
 import org.zakharov.springboot.google.appe.javaspringbootgoogleappe.model.UserModel;
+import org.zakharov.springboot.google.appe.javaspringbootgoogleappe.service.interfaces.IUserService;
 
 @Service
 public class UserObjectifyService implements IUserService {

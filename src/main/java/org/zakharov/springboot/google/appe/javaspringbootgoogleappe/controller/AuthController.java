@@ -9,6 +9,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.zakharov.springboot.google.appe.javaspringbootgoogleappe.model.ResponseModel;
+import org.zakharov.springboot.google.appe.javaspringbootgoogleappe.model.TokenModel;
+import org.zakharov.springboot.google.appe.javaspringbootgoogleappe.model.UserModel;
+import org.zakharov.springboot.google.appe.javaspringbootgoogleappe.service.AuthObjectifyService;
+import org.zakharov.springboot.google.appe.javaspringbootgoogleappe.service.UserObjectifyService;
 
 import javax.servlet.http.HttpSession;
 import java.util.Collections;
@@ -24,7 +28,7 @@ public class AuthController {
     UserObjectifyService userObjectifyService;
 
     // your_app_id.apps.googleusercontent.com
-    private static final String CLIENT_ID = "249200472631-e7phm7ng0toufdea9lv38avkusrkvutg.apps.googleusercontent.com";
+    private static final String CLIENT_ID = "460357203253-pv75sipcsl53g0n0cjmlcb7fene2peme.apps.googleusercontent.com";
 
     /* вызывается фронтендом после успешного получения им токена аутентификации
      * от гугл сервера аутентификации */
@@ -57,6 +61,7 @@ public class AuthController {
             ResponseModel responseModel =
                     userObjectifyService.createOrGetUserByGoogleId(payload);
             //  в http-сеанс сохраняем DataStore идентификатор пользователя
+            System.out.println("Set UID: " + ((UserModel)(responseModel.getData())).getId());
             httpSession.setAttribute("user_id", ((UserModel)(responseModel.getData())).getId());
             return new ResponseEntity<>(responseModel, HttpStatus.OK);
         } else {

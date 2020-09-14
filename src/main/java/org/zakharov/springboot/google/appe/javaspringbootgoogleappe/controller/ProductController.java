@@ -26,8 +26,9 @@ public class ProductController {
     }
 
     @PostMapping("/products")
-    public ResponseEntity<ResponseModel> create(@RequestBody ProductModel product, HttpSession httpSession) throws InstantiationException, IllegalAccessException {
-        return new ResponseEntity<>(service.create(product, httpSession.getAttribute("user_id")), HttpStatus.CREATED);
+    public ResponseEntity<ResponseModel> create(@RequestBody ProductModel product, HttpSession httpSession) throws Exception {
+        System.out.println("Get UID: " + httpSession.getAttribute("user_id"));
+        return new ResponseEntity<>(service.create(product, (Long) httpSession.getAttribute("user_id")), HttpStatus.CREATED);
     }
 
     @PatchMapping(value = "/products/{id}")

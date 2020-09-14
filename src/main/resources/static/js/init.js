@@ -56,3 +56,67 @@ $('div#g-signin2').click(function(){
     // начинаем отображение элемента презагрузки
     preloaderOn()
 })
+// send fake product data
+$('#addProduct').click(function () {
+    let dt = new Date().getTime();
+    const uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        const r = (dt + Math.random()*16)%16 | 0;
+        dt = Math.floor(dt/16);
+        return (c=='x' ? r :(r&0x3|0x8)).toString(16);
+    });
+    fetch('/api/products', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+            title: uuid,
+            description: "Lorem Ipsum Dolor for " + uuid,
+            price: 198.00,
+            quantity: 140,
+            // categoryId: 2
+            categoryId: 5644004762845184
+        })
+    }).then((response) => {
+        return response.json()
+    }).then(response => {
+        if (response) {
+            if (response.status === 'success') {
+                console.log(response)
+            }
+        }
+    }).catch((error) => {
+        console.log(error.message)
+        throw error
+    }).finally(() => {
+        preloaderOff()
+    })
+})
+
+// create a fake subscription
+$('#addSubscription').click(function () {
+    fetch('/api/subscription', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+            categoryId: 5644004762845184
+        })
+    }).then((response) => {
+        return response.json()
+    }).then(response => {
+        if (response) {
+            if (response.status === 'success') {
+                console.log(response)
+            }
+        }
+    }).catch((error) => {
+        console.log(error.message)
+        throw error
+    }).finally(() => {
+        preloaderOff()
+    })
+})

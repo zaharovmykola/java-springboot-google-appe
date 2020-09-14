@@ -43,6 +43,7 @@ public class ProductService implements IProductService {
                 = categoryObjectifyDao.read(productModel.getCategoryId());
         if(category != null) {
             productObjectifyDao.create(productModel);
+            System.out.println("Cat ID: " + category.getId());
             List<SubscriptionModel> subscriptionModels =
                     subscriptionObjectifyDao.getSubscriberListByCategoryId(category.getId());
             subscriptionModels.forEach(subscriptionModel -> {
@@ -69,8 +70,16 @@ public class ProductService implements IProductService {
                             , subjectString
                             , fromAddressString
                             , fromNameString
-                            , userObjectifyDao.read(userId).getEmail()
-                            , userObjectifyDao.read(userId).getName());
+                            , userObjectifyDao.read(subscriptionModel.getSubscriberId()).getEmail()
+                            , userObjectifyDao.read(subscriptionModel.getSubscriberId()).getName());
+                    System.out.println("send message start");
+                    System.out.println(messageString);
+                    System.out.println(subjectString);
+                    System.out.println(fromAddressString);
+                    System.out.println(fromNameString);
+                    System.out.println(userObjectifyDao.read(subscriptionModel.getSubscriberId()).getEmail());
+                    System.out.println(userObjectifyDao.read(subscriptionModel.getSubscriberId()).getName());
+                    System.out.println("send message end");
                 } catch (MessagingException e) {
                     e.printStackTrace();
                 } catch (UnsupportedEncodingException e) {

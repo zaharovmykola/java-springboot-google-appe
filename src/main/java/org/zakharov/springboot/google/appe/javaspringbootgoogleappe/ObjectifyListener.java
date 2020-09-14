@@ -5,6 +5,7 @@ import com.googlecode.objectify.ObjectifyFactory;
 import com.googlecode.objectify.ObjectifyService;
 import org.zakharov.springboot.google.appe.javaspringbootgoogleappe.model.CategoryModel;
 import org.zakharov.springboot.google.appe.javaspringbootgoogleappe.model.ProductModel;
+import org.zakharov.springboot.google.appe.javaspringbootgoogleappe.model.SubscriptionModel;
 import org.zakharov.springboot.google.appe.javaspringbootgoogleappe.model.UserModel;
 
 import javax.servlet.ServletContextEvent;
@@ -50,6 +51,7 @@ public class ObjectifyListener implements ServletContextListener {
         ObjectifyService.register(CategoryModel.class);
         ObjectifyService.register(ProductModel.class);
         ObjectifyService.register(UserModel.class);
+        ObjectifyService.register(SubscriptionModel.class);
     }
 
     @Override
