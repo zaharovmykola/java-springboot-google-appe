@@ -28,6 +28,16 @@ public class ProductDao extends AbstractDAO<ProductModel> {
         );
     }
 
+    // получение из хранилища объекта типа ProductModel по айди продукта
+    public ProductModel readById(Long _productId) throws Exception {
+        return (ProductModel) ObjectifyService.run(
+                (Work) () -> ofy().load().type(ProductModel.class)
+                        .filter("id", _productId) // отобрать только объекты Категория с заданным именем
+                        .first() // получить только первый из найденных объектов
+                        .now() // выполнить получение одного найденного объекта немедленно
+        );
+    }
+
     // получение отфильтрованных и отсортированных объектов моделей товаров
     public List<ProductModel> getFiltered(ProductSearchModel searchModel, List<SearchCriteria> inMemoryFilterModel) {
 
