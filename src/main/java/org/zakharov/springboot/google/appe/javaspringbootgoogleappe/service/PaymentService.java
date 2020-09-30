@@ -16,7 +16,7 @@ public class PaymentService {
     private PaymentDao dao;
 
     public PaymentResponseModel pay(PaymentModel paymentModel) {
-        dao.save(paymentModel);
+        dao.create(paymentModel);
         PaymentResponseModel response =
                 PaymentResponseModel.builder()
                         .status("success")

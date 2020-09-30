@@ -29,7 +29,7 @@ public class CartController {
     }
 
     @PostMapping("/{id}")
-    public ResponseEntity<ResponseModel> addCartItemCount(@PathVariable("id") Long id, HttpSession httpSession) {
+    public ResponseEntity<ResponseModel> addCartItemCount(@PathVariable("id") Long id, HttpSession httpSession) throws Exception {
         // попытка извлечь из объекта сеанса объект корзины
         CartModel cartModel = (CartModel) httpSession.getAttribute("CART");
         if (cartModel == null) {
@@ -50,7 +50,7 @@ public class CartController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ResponseModel> subtractCartItemCount(@PathVariable("id") Long id, HttpSession httpSession) throws InstantiationException, IllegalAccessException {
+    public ResponseEntity<ResponseModel> subtractCartItemCount(@PathVariable("id") Long id, HttpSession httpSession) throws Exception {
         CartModel cartModel = (CartModel) httpSession.getAttribute("CART");
         if (cartModel == null) {
             cartModel = new CartModel();
@@ -66,7 +66,7 @@ public class CartController {
     }
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<ResponseModel> deleteCartItem(@PathVariable("id") Long id, HttpSession httpSession) {
+    public ResponseEntity<ResponseModel> deleteCartItem(@PathVariable("id") Long id, HttpSession httpSession) throws Exception {
         CartModel cartModel = (CartModel) httpSession.getAttribute("CART");
         if (cartModel == null) {
             cartModel = new CartModel();
